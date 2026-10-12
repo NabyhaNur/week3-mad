@@ -40,18 +40,40 @@ class LibraryItem {
   final int year;
 
   LibraryItem(this.title, this.year);
+
+  String describe() => '$title ($year)';
 }
 
 class Book extends LibraryItem {
   final int pages;
 
   Book(super.title, super.year, this.pages);
+
+  @override
+  String describe() => '${super.describe()}, $pages pages';
 }
 
 Book mainBook() {
   return Book(titles[u], yearOf(u), 100 + 3 * seed);
 }
+class Magazine extends LibraryItem {
+  final int issue;
 
+  Magazine(super.title, super.year, this.issue);
+
+  @override
+  String describe() => '${super.describe()}, issue $issue';
+}
+
+Magazine mainMagazine() {
+  int i = (u + 1) % 10;
+
+  return Magazine(
+    titles[i],
+    yearOf(i),
+    1 + (t + u) % 12,
+  );
+}
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
 
@@ -86,6 +108,12 @@ void step1() {
 
 void step2() {
   print('--- Step 2 ---');
+
+  print('Step 2: ${mainBook().describe()}');
+  print('Step 2: ${mainMagazine().describe()}');
+
+  // @override catches misspelled method names.
+  // super.describe() calls the parent class method.
 }
 
 void step3() {
