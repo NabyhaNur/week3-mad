@@ -56,8 +56,21 @@ abstract class Borrowable {
 }
 
 
+mixin Renewable {
+  int renewals = 0;
 
-class Book extends LibraryItem implements Borrowable {
+  bool renew(int limit) {
+    if (renewals >= limit) {
+      return false;
+    }
+
+    renewals++;
+    return true;
+  }
+}
+
+
+class Book extends LibraryItem with Renewable implements Borrowable  {
   final int pages;
 
   bool _out = false;
@@ -119,7 +132,7 @@ Magazine mainMagazine() {
 }
 
 
-class Dvd extends LibraryItem {
+class Dvd extends LibraryItem with Renewable  {
   final int minutes;
 
   Dvd(super.title, super.year, this.minutes);
@@ -246,9 +259,41 @@ void step4() {
 
 
 
+
 void step5() {
   print('--- Step 5 ---');
+
+  Book book = mainBook();
+
+  int ok = 0;
+
+  for (int i = 0; i < renewAttempts; i++) {
+    if (book.renew(renewLimit)) {
+      ok++;
+    }
+  }
+
+  print(
+    'Step 5: renewed $ok of $renewAttempts '
+    'attempts (limit $renewLimit)',
+  );
+
+  print(
+    'Step 5: renew once more? '
+    '${book.renew(renewLimit)}',
+  );
+
+  print(
+    'Step 5: dvd can renew too? '
+    '${mainDvd().renew(1)}',
+  );
+
+  // A mixin is useful because Book and Dvd
+  // share renewal behavior, but Magazine does not.
+  // Adding renew() to LibraryItem would make
+  // renewal available to every child class.
 }
+
 
 void step6() {
   print('--- Step 6 ---');
