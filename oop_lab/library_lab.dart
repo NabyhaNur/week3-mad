@@ -173,6 +173,27 @@ enum MemberType {
 }
 
 
+
+extension MoneyText on int {
+  String get rs => 'Rs $this';
+}
+
+extension Initials on String {
+  String get initials {
+    return split(' ').map((word) => word[0]).join();
+  }
+}
+
+extension ShelfMath on List<LibraryItem> {
+  int totalLateFee(int days) {
+    return fold(
+      0,
+      (sum, item) => sum + item.lateFee(days),
+    );
+  }
+}
+
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
 
@@ -338,9 +359,38 @@ void step6() {
 }
 
 
+
 void step7() {
   print('--- Step 7 ---');
+
+  MemberType type = MemberType.values[seed % 3];
+
+  int fee = mainBook().lateFee(daysLate);
+
+  int discountedFee = type.applyDiscount(fee);
+
+  List<LibraryItem> shelf = [
+    mainBook(),
+    mainMagazine(),
+    mainDvd(),
+  ];
+
+  print('Step 7: ${discountedFee.rs}');
+
+  print(
+    'Step 7: initials of "${titles[u]}" = '
+    '${titles[u].initials}',
+  );
+
+  print(
+    'Step 7: shelf fee for $daysLate days = '
+    '${shelf.totalLateFee(daysLate).rs}',
+  );
+
+  // Extensions provide readable syntax like 40.rs
+  // without modifying the original int class.
 }
+
 
 void step8() {
   print('--- Step 8 ---');
