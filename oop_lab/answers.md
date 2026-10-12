@@ -1,5 +1,3 @@
-# OOP Lab — Reflection Answers
-
 **Course:** CS442 Mobile Application Development  
 **Lab:** Campus Library System  
 **Registration Number Suffix:** 04072312022
