@@ -156,6 +156,23 @@ Dvd mainDvd() {
   );
 }
 
+
+enum MemberType {
+  student(3, 50),
+  faculty(10, 20),
+  guest(1, 0);
+
+  final int maxLoans;
+  final int discountPercent;
+
+  const MemberType(this.maxLoans, this.discountPercent);
+
+  int applyDiscount(int fee) {
+    return fee - (fee * discountPercent ~/ 100);
+  }
+}
+
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
 
@@ -295,9 +312,31 @@ void step5() {
 }
 
 
+
 void step6() {
   print('--- Step 6 ---');
+
+  MemberType type = MemberType.values[seed % 3];
+
+  int fee = mainBook().lateFee(daysLate);
+
+  print(
+    'Step 6: member type = ${type.name} '
+    '(index ${type.index})',
+  );
+
+  print('Step 6: max loans = ${type.maxLoans}');
+
+  print(
+    'Step 6: book fee $fee -> '
+    '${type.applyDiscount(fee)} after discount',
+  );
+
+  // MemberType.student is safer than a string
+  // because enum values are fixed and type-checked.
+  // Invalid values and spelling mistakes are avoided.
 }
+
 
 void step7() {
   print('--- Step 7 ---');
