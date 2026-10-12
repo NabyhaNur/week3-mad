@@ -1,8 +1,7 @@
-
- // CS442 - Mobile Application Development
- // Lab Week 5 - Campus Library System
- // Name: NABIHA NOOR
- // Roll No: 022
+// CS442 - Mobile Application Development
+// Lab Week 5 - Campus Library System
+// Name: NABIHA NOOR
+// Roll No: 022
 
 const String rollNo = '022';
 
@@ -34,8 +33,6 @@ final int renewLimit = 1 + t % 3;
 final int renewAttempts = 2 + u;
 final int shelfSize = 3 + u % 4;
 
-
-
 abstract class LibraryItem {
   final String title;
   final int year;
@@ -55,8 +52,6 @@ abstract class LibraryItem {
   }
 }
 
-
-
 abstract class Borrowable {
   bool get isAvailable;
 
@@ -64,7 +59,6 @@ abstract class Borrowable {
 
   void giveBack();
 }
-
 
 mixin Renewable {
   int renewals = 0;
@@ -79,8 +73,7 @@ mixin Renewable {
   }
 }
 
-
-class Book extends LibraryItem with Renewable implements Borrowable  {
+class Book extends LibraryItem with Renewable implements Borrowable {
   final int pages;
 
   bool _out = false;
@@ -109,12 +102,9 @@ class Book extends LibraryItem with Renewable implements Borrowable  {
   }
 }
 
-
-
 Book mainBook() {
   return Book(titles[u], yearOf(u), 100 + 3 * seed);
 }
-
 
 class Magazine extends LibraryItem {
   final int issue;
@@ -130,19 +120,13 @@ class Magazine extends LibraryItem {
   }
 }
 
-
 Magazine mainMagazine() {
   int i = (u + 1) % 10;
 
-  return Magazine(
-    titles[i],
-    yearOf(i),
-    1 + (t + u) % 12,
-  );
+  return Magazine(titles[i], yearOf(i), 1 + (t + u) % 12);
 }
 
-
-class Dvd extends LibraryItem with Renewable  {
+class Dvd extends LibraryItem with Renewable {
   final int minutes;
 
   Dvd(super.title, super.year, this.minutes);
@@ -159,13 +143,8 @@ class Dvd extends LibraryItem with Renewable  {
 Dvd mainDvd() {
   int i = (u + 2) % 10;
 
-  return Dvd(
-    titles[i],
-    yearOf(i),
-    90 + seed % 40,
-  );
+  return Dvd(titles[i], yearOf(i), 90 + seed % 40);
 }
-
 
 enum MemberType {
   student(3, 50),
@@ -182,8 +161,6 @@ enum MemberType {
   }
 }
 
-
-
 extension MoneyText on int {
   String get rs => 'Rs $this';
 }
@@ -196,14 +173,9 @@ extension Initials on String {
 
 extension ShelfMath on List<LibraryItem> {
   int totalLateFee(int days) {
-    return fold(
-      0,
-      (sum, item) => sum + item.lateFee(days),
-    );
+    return fold(0, (sum, item) => sum + item.lateFee(days));
   }
 }
-
-
 
 class Fine {
   final int amount;
@@ -232,10 +204,6 @@ class Fine {
   }
 }
 
-
-
-
-
 List<LibraryItem> buildShelf() {
   List<LibraryItem> shelf = [];
 
@@ -243,37 +211,16 @@ List<LibraryItem> buildShelf() {
     int i = (u + k) % 10;
 
     if (k % 3 == 0) {
-      shelf.add(
-        Book(
-          titles[i],
-          yearOf(i),
-          100 + 3 * seed,
-        ),
-      );
+      shelf.add(Book(titles[i], yearOf(i), 100 + 3 * seed));
     } else if (k % 3 == 1) {
-      shelf.add(
-        Magazine(
-          titles[i],
-          yearOf(i),
-          1 + (t + k) % 12,
-        ),
-      );
+      shelf.add(Magazine(titles[i], yearOf(i), 1 + (t + k) % 12));
     } else {
-      shelf.add(
-        Dvd(
-          titles[i],
-          yearOf(i),
-          90 + seed % 40,
-        ),
-      );
+      shelf.add(Dvd(titles[i], yearOf(i), 90 + seed % 40));
     }
   }
 
   return shelf;
 }
-
-
-
 
 class Member {
   final String name;
@@ -292,9 +239,6 @@ class Member {
   }
 }
 
-
-
-
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
 
@@ -311,9 +255,6 @@ void main() {
 }
 
 void step1() {
-
-
-
   Book b = mainBook();
   LibraryItem item = b;
 
@@ -325,8 +266,6 @@ void step1() {
   // LibraryItem does not have a pages field.
 }
 
-
-
 void step2() {
   print('--- Step 2 ---');
 
@@ -337,8 +276,6 @@ void step2() {
   // super.describe() calls the parent class method.
 }
 
-
-  
 void step3() {
   print('--- Step 3 ---');
 
@@ -361,8 +298,6 @@ void step3() {
   // because it is an abstract class.
 }
 
-
-
 void step4() {
   print('--- Step 4 ---');
 
@@ -378,11 +313,7 @@ void step4() {
 
   print('Step 4: after return? ${book.isAvailable}');
 
-  List<LibraryItem> items = [
-    book,
-    mainMagazine(),
-    mainDvd(),
-  ];
+  List<LibraryItem> items = [book, mainMagazine(), mainDvd()];
 
   for (LibraryItem item in items) {
     print(
@@ -395,9 +326,6 @@ void step4() {
   // implements requires the class to provide
   // implementations for the interface members.
 }
-
-
-
 
 void step5() {
   print('--- Step 5 ---');
@@ -433,8 +361,6 @@ void step5() {
   // renewal available to every child class.
 }
 
-
-
 void step6() {
   print('--- Step 6 ---');
 
@@ -459,8 +385,6 @@ void step6() {
   // Invalid values and spelling mistakes are avoided.
 }
 
-
-
 void step7() {
   print('--- Step 7 ---');
 
@@ -470,11 +394,7 @@ void step7() {
 
   int discountedFee = type.applyDiscount(fee);
 
-  List<LibraryItem> shelf = [
-    mainBook(),
-    mainMagazine(),
-    mainDvd(),
-  ];
+  List<LibraryItem> shelf = [mainBook(), mainMagazine(), mainDvd()];
 
   print('Step 7: ${discountedFee.rs}');
 
@@ -491,9 +411,6 @@ void step7() {
   // Extensions provide readable syntax like 40.rs
   // without modifying the original int class.
 }
-
-
-
 
 void step8() {
   print('--- Step 8 ---');
@@ -521,8 +438,6 @@ void step8() {
   // A Set may then keep duplicate equal values.
 }
 
-
-
 void step9() {
   print('--- Step 9 ---');
 
@@ -532,9 +447,7 @@ void step9() {
 
   List<LibraryItem> shelf = buildShelf();
 
-  print(
-    'Step 9: items created = ${LibraryItem.created}',
-  );
+  print('Step 9: items created = ${LibraryItem.created}');
 
   int fee = shelf.first.lateFee(daysBig);
 
@@ -559,31 +472,21 @@ void step9() {
   // without creating a LibraryItem object.
 }
 
-
-
-
 void step10() {
   print('--- Step 10 ---');
 
   List<LibraryItem> shelf = buildShelf();
 
-  Member member = Member(
-    'S$seed',
-    MemberType.values[seed % 3],
-  );
+  Member member = Member('S$seed', MemberType.values[seed % 3]);
 
   Fine total = shelf.fold<Fine>(
     Fine(0),
     (sum, item) => sum + member.feeFor(item, daysLate),
   );
 
-  int borrowable = shelf
-      .where((item) => item is Borrowable)
-      .length;
+  int borrowable = shelf.where((item) => item is Borrowable).length;
 
-  int renewable = shelf
-      .where((item) => item is Renewable)
-      .length;
+  int renewable = shelf.where((item) => item is Renewable).length;
 
   print(
     'Step 10: ${shelf.length} items, '
