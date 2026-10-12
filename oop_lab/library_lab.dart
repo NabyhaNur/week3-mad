@@ -47,9 +47,20 @@ abstract class LibraryItem {
 }
 
 
+abstract class Borrowable {
+  bool get isAvailable;
 
-class Book extends LibraryItem {
+  void borrow();
+
+  void giveBack();
+}
+
+
+
+class Book extends LibraryItem implements Borrowable {
   final int pages;
+
+  bool _out = false;
 
   Book(super.title, super.year, this.pages);
 
@@ -60,7 +71,21 @@ class Book extends LibraryItem {
   int lateFee(int days) {
     return days * feePerDay;
   }
+
+  @override
+  bool get isAvailable => !_out;
+
+  @override
+  void borrow() {
+    _out = true;
+  }
+
+  @override
+  void giveBack() {
+    _out = false;
+  }
 }
+
 
 
 Book mainBook() {
@@ -188,7 +213,38 @@ void step3() {
 
 void step4() {
   print('--- Step 4 ---');
+
+  Book book = mainBook();
+
+  print('Step 4: available? ${book.isAvailable}');
+
+  book.borrow();
+
+  print('Step 4: after borrow? ${book.isAvailable}');
+
+  book.giveBack();
+
+  print('Step 4: after return? ${book.isAvailable}');
+
+  List<LibraryItem> items = [
+    book,
+    mainMagazine(),
+    mainDvd(),
+  ];
+
+  for (LibraryItem item in items) {
+    print(
+      'Step 4: ${item.runtimeType} '
+      'borrowable? ${item is Borrowable}',
+    );
+  }
+
+  // extends inherits parent class behavior.
+  // implements requires the class to provide
+  // implementations for the interface members.
 }
+
+
 
 void step5() {
   print('--- Step 5 ---');
