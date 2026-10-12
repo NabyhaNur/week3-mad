@@ -34,6 +34,24 @@ final int renewLimit = 1 + t % 3;
 final int renewAttempts = 2 + u;
 final int shelfSize = 3 + u % 4;
 
+
+class LibraryItem {
+  final String title;
+  final int year;
+
+  LibraryItem(this.title, this.year);
+}
+
+class Book extends LibraryItem {
+  final int pages;
+
+  Book(super.title, super.year, this.pages);
+}
+
+Book mainBook() {
+  return Book(titles[u], yearOf(u), 100 + 3 * seed);
+}
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
 
@@ -50,8 +68,21 @@ void main() {
 }
 
 void step1() {
-  print('--- Step 1 ---');
+
+
+
+  Book b = mainBook();
+  LibraryItem item = b;
+
+  print('Step 1: ${b.title} (${b.year}), ${b.pages} pages');
+  print('Step 1: stored as LibraryItem: ${item.title}');
+  print('Step 1: runtimeType = ${item.runtimeType}');
+
+  // item.pages cannot be accessed because
+  // LibraryItem does not have a pages field.
 }
+
+
 
 void step2() {
   print('--- Step 2 ---');
