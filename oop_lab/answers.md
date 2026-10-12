@@ -1,14 +1,14 @@
 **Course:** CS442 Mobile Application Development  
 **Lab:** Campus Library System  
 **Registration Number Suffix:** 04072312022
-**Name:**Nabiha Noor
+**Name:** Nabiha Noor
 
 ## Q1. What is the difference between extends and implements in Dart?
 
 The `extends` keyword is used for inheritance. A child class inherits the properties and methods of its parent class. The `implements` keyword is used to follow an interface contract, requiring the class to provide implementations of its members.
 
 In this lab, `Book` extends `LibraryItem` and implements `Borrowable`.
-
+mit -
 ## Q2. Why are mixins useful?
 
 Mixins allow different classes to reuse the same functionality without duplicating code.
