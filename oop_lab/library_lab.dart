@@ -273,6 +273,28 @@ List<LibraryItem> buildShelf() {
 }
 
 
+
+
+class Member {
+  final String name;
+  final MemberType type;
+
+  Member(this.name, this.type);
+
+  Fine feeFor(LibraryItem item, int days) {
+    int fee = item.lateFee(days);
+
+    fee = LibraryItem.capFee(fee);
+
+    fee = type.applyDiscount(fee);
+
+    return Fine(fee);
+  }
+}
+
+
+
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
 
@@ -539,6 +561,47 @@ void step9() {
 
 
 
+
 void step10() {
   print('--- Step 10 ---');
+
+  List<LibraryItem> shelf = buildShelf();
+
+  Member member = Member(
+    'S$seed',
+    MemberType.values[seed % 3],
+  );
+
+  Fine total = shelf.fold<Fine>(
+    Fine(0),
+    (sum, item) => sum + member.feeFor(item, daysLate),
+  );
+
+  int borrowable = shelf
+      .where((item) => item is Borrowable)
+      .length;
+
+  int renewable = shelf
+      .where((item) => item is Renewable)
+      .length;
+
+  print(
+    'Step 10: ${shelf.length} items, '
+    '$borrowable borrowable, '
+    '$renewable renewable',
+  );
+
+  print(
+    'Step 10: ${member.name} '
+    '(${member.type.name}) owes $total',
+  );
+
+  print(
+    'Step 10: over the cap? '
+    '${total > Fine(feeCap)}',
+  );
+
+  // This step combines inheritance,
+  // interfaces, mixins, enums,
+  // static methods, and operator overloading.
 }
