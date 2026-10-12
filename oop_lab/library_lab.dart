@@ -35,14 +35,18 @@ final int renewAttempts = 2 + u;
 final int shelfSize = 3 + u % 4;
 
 
-class LibraryItem {
+abstract class LibraryItem {
   final String title;
   final int year;
 
   LibraryItem(this.title, this.year);
 
   String describe() => '$title ($year)';
+
+  int lateFee(int days);
 }
+
+
 
 class Book extends LibraryItem {
   final int pages;
@@ -51,11 +55,19 @@ class Book extends LibraryItem {
 
   @override
   String describe() => '${super.describe()}, $pages pages';
+
+  @override
+  int lateFee(int days) {
+    return days * feePerDay;
+  }
 }
+
 
 Book mainBook() {
   return Book(titles[u], yearOf(u), 100 + 3 * seed);
 }
+
+
 class Magazine extends LibraryItem {
   final int issue;
 
@@ -63,7 +75,13 @@ class Magazine extends LibraryItem {
 
   @override
   String describe() => '${super.describe()}, issue $issue';
+
+  @override
+  int lateFee(int days) {
+    return days * (feePerDay ~/ 2);
+  }
 }
+
 
 Magazine mainMagazine() {
   int i = (u + 1) % 10;
@@ -74,6 +92,32 @@ Magazine mainMagazine() {
     1 + (t + u) % 12,
   );
 }
+
+
+class Dvd extends LibraryItem {
+  final int minutes;
+
+  Dvd(super.title, super.year, this.minutes);
+
+  @override
+  String describe() => '${super.describe()}, $minutes min';
+
+  @override
+  int lateFee(int days) {
+    return days * feePerDay * 2;
+  }
+}
+
+Dvd mainDvd() {
+  int i = (u + 2) % 10;
+
+  return Dvd(
+    titles[i],
+    yearOf(i),
+    90 + seed % 40,
+  );
+}
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
 
@@ -116,9 +160,31 @@ void step2() {
   // super.describe() calls the parent class method.
 }
 
+
+  
 void step3() {
   print('--- Step 3 ---');
+
+  print(
+    'Step 3: Book late fee for $daysLate days = '
+    '${mainBook().lateFee(daysLate)}',
+  );
+
+  print(
+    'Step 3: Magazine late fee for $daysLate days = '
+    '${mainMagazine().lateFee(daysLate)}',
+  );
+
+  print(
+    'Step 3: Dvd late fee for $daysLate days = '
+    '${mainDvd().lateFee(daysLate)}',
+  );
+
+  // LibraryItem cannot be instantiated directly
+  // because it is an abstract class.
 }
+
+
 
 void step4() {
   print('--- Step 4 ---');
