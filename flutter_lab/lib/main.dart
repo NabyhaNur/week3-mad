@@ -87,8 +87,7 @@ const SizedBox(height: 12),
 const SizedBox(height: 12),
 const BuggyCounter(),
 const SizedBox(height: 12),
-const CountdownTimer(),
-
+const LifecycleDemo(),
           ],
         ),
       ),
@@ -221,6 +220,10 @@ class _CountdownTimerState extends State<CountdownTimer> {
   @override
   void initState() {
     super.initState();
+    lifecycleLog.add('initState');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+  if (mounted) setState(() {});
+});
     _seconds = startSeconds;
 
     _timer = Timer.periodic(
@@ -239,6 +242,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
   @override
   void dispose() {
+    lifecycleLog.add('dispose');
     _timer?.cancel();
     super.dispose();
   }
@@ -323,6 +327,45 @@ void _reset() {
 ),
 
 
+      ],
+    );
+  }
+}
+
+
+class LifecycleDemo extends StatefulWidget {
+  const LifecycleDemo({super.key});
+
+  @override
+  State<LifecycleDemo> createState() => _LifecycleDemoState();
+}
+
+class _LifecycleDemoState extends State<LifecycleDemo> {
+  bool showTimer = true;
+
+  void toggleTimer() {
+    setState(() {
+      showTimer = !showTimer;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: toggleTimer,
+          child: Text(showTimer ? 'Hide Timer' : 'Show Timer'),
+        ),
+        if (showTimer) const CountdownTimer(),
+        const SizedBox(height: 12),
+        Text('Lifecycle Log: ${lifecycleLog.join(', ')}'),
       ],
     );
   }
