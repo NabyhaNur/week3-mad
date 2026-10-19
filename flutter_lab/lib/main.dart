@@ -21,7 +21,7 @@ final int startCount = 3 + u; // where the tally starts
 final int stepSize = 1 + t % 4; // how much + and - change the tally
 final int maxCount = 20 + 2 * t; // the tally may never go above this
 final int startSeconds = 5 + (t + u) % 6; // where the countdown starts
-final int bugStep = 1 + u % 4; // used by BuggyCounter in Step 7
+final int bugStep = 1 + u % 4; // used by BuggyCostudentCardunter in Step 7
 // ===========================================================================
 
 // Step 9 writes to this list from initState and dispose.
@@ -53,24 +53,36 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Study Tracker: $course'),
       ),
+      
       body: SingleChildScrollView(
-        child: Column(
+  padding: const EdgeInsets.all(16),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             StudentCard(
               name: studentName,
               roll: rollNo,
-              courseName: course,
+              course: course,
             ),
+  
+
+
+const SizedBox(height: 12),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Start: $startCount',
                     key: const Key('info-start')),
                 Text('Step: $stepSize',
                     key: const Key('info-step')),
-                Text('Max: $maxCount',
+                           Text('Max: $maxCount',
                     key: const Key('info-max')),
               ],
+            ),
+            const SizedBox(height: 12),
+            GoalBanner(
+              count: startCount,
+              max: maxCount,
             ),
           ],
         ),
@@ -94,14 +106,19 @@ class HomePage extends StatelessWidget {
 class StudentCard extends StatelessWidget {
   final String name;
   final String roll;
-  final String courseName;
+  final String course;
 
   const StudentCard({
     super.key,
     required this.name,
     required this.roll,
-    required this.courseName,
+    required this.course,
   });
+
+
+
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -114,13 +131,36 @@ class StudentCard extends StatelessWidget {
           children: [
             Text('Name: $name', key: const Key('student-name')),
             Text('Roll no: $roll', key: const Key('student-roll')),
-            Text('Course: $courseName', key: const Key('student-course')),
+            Text('Course: $course', key: const Key('student-course')),
           ],
         ),
       ),
     );
   }
 }
+
+class GoalBanner extends StatelessWidget {
+  final int count;
+  final int max;
+
+  const GoalBanner({
+    super.key,
+    required this.count,
+    required this.max,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final percent = count * 100 ~/ max;
+
+    return Text(
+      'Progress: $count of $max ($percent%)',
+      key: const Key('progress'),
+    );
+  }
+}
+
+
 
 
 
