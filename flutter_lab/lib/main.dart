@@ -204,10 +204,26 @@ class _TallyState extends State<Tally> {
   int _count = startCount;
 
   void _plus() {
-    setState(() {
-      _count += stepSize;
-    });
-  }
+  setState(() {
+    _count += stepSize;
+    if (_count > maxCount) _count = maxCount;
+  });
+}
+
+
+void _minus() {
+  setState(() {
+    _count -= stepSize;
+    if (_count < 0) _count = 0;
+  });
+}
+
+void _reset() {
+  setState(() {
+    _count = startCount;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -224,11 +240,29 @@ class _TallyState extends State<Tally> {
           max: maxCount,
         ),
 
-        ElevatedButton(
-          key: const Key('plus'),
-          onPressed: _plus,
-          child: Text('+$stepSize'),
-        ),
+        Row(
+  children: [
+    ElevatedButton(
+      key: const Key('plus'),
+      onPressed: _plus,
+      child: Text('+$stepSize'),
+    ),
+    const SizedBox(width: 8),
+    ElevatedButton(
+      key: const Key('minus'),
+      onPressed: _minus,
+      child: Text('-$stepSize'),
+    ),
+    const SizedBox(width: 8),
+    OutlinedButton(
+      key: const Key('reset'),
+      onPressed: _reset,
+      child: const Text('Reset'),
+    ),
+  ],
+),
+
+
       ],
     );
   }
