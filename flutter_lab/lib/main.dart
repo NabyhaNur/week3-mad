@@ -43,6 +43,7 @@ class LabApp extends StatelessWidget {
 }
 
 
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -52,18 +53,33 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Study Tracker: $course'),
       ),
-      
-body: Center(
-  child: StudentCard(
-    name: studentName,
-    roll: rollNo,
-    courseName: course,
-  ),
-),
-
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            StudentCard(
+              name: studentName,
+              roll: rollNo,
+              courseName: course,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text('Start: $startCount',
+                    key: const Key('info-start')),
+                Text('Step: $stepSize',
+                    key: const Key('info-step')),
+                Text('Max: $maxCount',
+                    key: const Key('info-max')),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
+
 
 // Think:
 // runApp() receives the root widget of the application.
