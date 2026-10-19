@@ -52,9 +52,15 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Study Tracker: $course'),
       ),
-      body: const Center(
-        child: Text('Hello'),
-      ),
+      
+body: Center(
+  child: StudentCard(
+    name: studentName,
+    roll: rollNo,
+    courseName: course,
+  ),
+),
+
     );
   }
 }
@@ -66,6 +72,43 @@ class HomePage extends StatelessWidget {
 
 
 // ---- Provided for Step 7. It has a bug on purpose. Do not rename anything.
+
+
+
+class StudentCard extends StatelessWidget {
+  final String name;
+  final String roll;
+  final String courseName;
+
+  const StudentCard({
+    super.key,
+    required this.name,
+    required this.roll,
+    required this.courseName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Name: $name', key: const Key('student-name')),
+            Text('Roll no: $roll', key: const Key('student-roll')),
+            Text('Course: $courseName', key: const Key('student-course')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
 class BuggyCounter extends StatefulWidget {
   const BuggyCounter({super.key});
 
