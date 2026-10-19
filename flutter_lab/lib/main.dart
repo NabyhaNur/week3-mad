@@ -86,6 +86,8 @@ const SizedBox(height: 12),
            const Tally(),
 const SizedBox(height: 12),
 const BuggyCounter(),
+const SizedBox(height: 12),
+const CountdownTimer(),
 
           ],
         ),
@@ -198,7 +200,57 @@ class _BuggyCounterState extends State<BuggyCounter> {
   }
 }
 
+// Before the fix, after 3 taps:
+// _clicks inside State = 9.
+// Screen displayed Bug clicks: 0.
+// Reason: Without setState(), Flutter does not rebuild the widget.
 
+
+
+class CountdownTimer extends StatefulWidget {
+  const CountdownTimer({super.key});
+
+  @override
+  State<CountdownTimer> createState() => _CountdownTimerState();
+}
+
+class _CountdownTimerState extends State<CountdownTimer> {
+  late int _seconds;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _seconds = startSeconds;
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (_seconds > 0) {
+          setState(() {
+            _seconds--;
+          });
+        } else {
+          timer.cancel();
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Countdown: $_seconds',
+      key: const Key('countdown'),
+    );
+  }
+}
 
 
 class Tally extends StatefulWidget {
