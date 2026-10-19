@@ -64,6 +64,9 @@ class HomePage extends StatelessWidget {
               roll: rollNo,
               course: course,
             ),
+
+
+            
   
 
 
@@ -81,6 +84,9 @@ const SizedBox(height: 12),
             ),
             const SizedBox(height: 12),
            const Tally(),
+const SizedBox(height: 12),
+const BuggyCounter(),
+
           ],
         ),
       ),
@@ -181,8 +187,10 @@ class _BuggyCounterState extends State<BuggyCounter> {
         ElevatedButton(
           key: const Key('bug-button'),
           onPressed: () {
-            _clicks += bugStep;
-          },
+  setState(() {
+    _clicks += bugStep;
+  });
+},
           child: Text('+$bugStep'),
         ),
       ],
