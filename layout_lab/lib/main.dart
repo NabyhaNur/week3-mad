@@ -152,6 +152,8 @@ class SummaryRow extends StatelessWidget {
 }
 
 
+
+
 class Clock extends StatefulWidget {
   const Clock({super.key});
 
@@ -162,14 +164,17 @@ class Clock extends StatefulWidget {
 class _ClockState extends State<Clock> {
   late Timer _timer;
   int _seconds = startSec;
-// We start the Timer in initState because it runs once.
-// If we start it inside build, every rebuild may create
-// another timer, making the clock run faster.
+  int _builds = 0;
+
   @override
   void initState() {
     super.initState();
 
-    // Timer har 1 second baad chalega.
+    lifecycleLog.add('initState');
+
+    // Timer starts here because initState runs once.
+    // If started in build, multiple timers could be created.
+
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
@@ -183,10 +188,32 @@ class _ClockState extends State<Clock> {
   }
 
   @override
+  void dispose() {
+    _timer.cancel();
+    lifecycleLog.add('dispose');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Text(
-      'Session: $_seconds s',
-      key: const Key('clock'),
+    _builds++;
+
+    // One setState per tick causes one normal rebuild.
+    // Without cancel, a timer could call setState after dispose.
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Session: $_seconds s',
+          key: const Key('clock'),
+        ),
+        Text(
+          'Builds: $_builds',
+          key: const Key('builds'),
+        ),
+      ],
     );
   }
 }
+
