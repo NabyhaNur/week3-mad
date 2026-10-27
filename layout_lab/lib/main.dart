@@ -188,6 +188,9 @@ class HomePage extends StatelessWidget {
            const InfoPanel(),  
             // New widgets from Steps 6-10
             // will be added below.
+
+            const SizedBox(height: 12),
+            const SummaryRow(),
           ],
         ),
       ),
@@ -227,29 +230,52 @@ class SettingsCard extends StatelessWidget {
 // Do not modify until Step 7.
 // =====================================================
 
-class SummaryRow extends StatelessWidget {
-  const SummaryRow({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          'Part A: read the widget tree of the $course board from top to bottom.',
-          key: const Key('sum-a'),
-        ),
-        Text(
-          'Part B: build each box from small widgets and never extend a built-in class.',
-          key: const Key('sum-b'),
-        ),
-        Text(
-          'Part C: break the layout on purpose, then fix it with Expanded or Wrap.',
-          key: const Key('sum-c'),
-        ),
-      ],
-    );
-  }
-}
+ // =====================================================
+ // STEP 7 - OVERFLOW AND EXPANDED
+ // =====================================================
+
+ // THINK QUESTION - STEP 7:
+ // Why does Expanded make Text wrap?
+ //
+ // ANSWER:
+ // Constraints go down, sizes go up.
+ // Expanded gives each Text a limited share of Row width.
+ // The Text wraps its words within those constraints.
+ // This prevents horizontal overflow.
+
+ class SummaryRow extends StatelessWidget {
+   const SummaryRow({super.key});
+
+   @override
+   Widget build(BuildContext context) {
+     return Row(
+       children: [
+         Expanded(
+           child: Text(
+             'Part A: read the widget tree of the $course board from top to bottom.',
+             key: const Key('sum-a'),
+           ),
+         ),
+
+         Expanded(
+           child: Text(
+             'Part B: build each box from small widgets and never extend a built-in class.',
+             key: const Key('sum-b'),
+           ),
+         ),
+
+         Expanded(
+           child: Text(
+             'Part C: break the layout on purpose, then fix it with Expanded or Wrap.',
+             key: const Key('sum-c'),
+           ),
+         ),
+       ],
+     );
+   }
+ }
+
 
 // =====================================================
 // STEP 1 - CLOCK USING TIMER AND INITSTATE
