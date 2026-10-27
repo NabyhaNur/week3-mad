@@ -191,6 +191,9 @@ class HomePage extends StatelessWidget {
 
             const SizedBox(height: 12),
             const SummaryRow(),
+
+            const SizedBox(height: 12),
+            const ShareRow(),
           ],
         ),
       ),
@@ -609,6 +612,65 @@ class _SwapBoardState extends State<SwapBoard> {
                key: const Key('col-c'),
              ),
            ],
+         ),
+       ],
+     );
+   }
+ }
+
+
+
+ // =====================================================
+ // STEP 8 - EXPANDED VS FLEXIBLE
+ // =====================================================
+
+ // THINK QUESTION - STEP 8:
+ // What happens if Expanded and Flexible are swapped?
+ //
+ // ANSWER:
+ // Expanded fills all of its allocated space.
+ // Flexible can take less space than allocated.
+ // If swapped, the Exp button may become smaller,
+ // while the Flex button will stretch.
+ //
+ // Expanded is Flexible with FlexFit.tight.
+
+ class ShareRow extends StatelessWidget {
+   const ShareRow({super.key});
+
+   @override
+   Widget build(BuildContext context) {
+     return Row(
+       key: const Key('share-row'),
+       children: [
+         // First button has a fixed width.
+         SizedBox(
+           key: const Key('fixed'),
+           width: fixedW,
+           child: ElevatedButton(
+             onPressed: () {},
+             child: const Text('F'),
+           ),
+         ),
+
+         // Expanded fills its allocated width.
+         Expanded(
+           flex: flexA,
+           child: ElevatedButton(
+             key: const Key('exp'),
+             onPressed: () {},
+             child: const Text('Exp'),
+           ),
+         ),
+
+         // Flexible may use less than its allocation.
+         Flexible(
+           flex: flexB,
+           child: ElevatedButton(
+             key: const Key('flex'),
+             onPressed: () {},
+             child: const Text('Flex'),
+           ),
          ),
        ],
      );
