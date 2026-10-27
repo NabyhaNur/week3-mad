@@ -199,6 +199,9 @@ class HomePage extends StatelessWidget {
            //step 9-container
             const SizedBox(height: 12),
             const InfoBox(),
+
+            const SizedBox(height: 12),
+            const StampStack(),
           ],
         ),
       ),
@@ -725,3 +728,55 @@ class _SwapBoardState extends State<SwapBoard> {
    }
  }
 
+
+ // =====================================================
+ // STEP 10 - STACK AND POSITIONED
+ // =====================================================
+
+ // THINK QUESTION - STEP 10:
+ // The non-positioned grey Container determines the
+ // size of the Stack (300 width and 120 height).
+ //
+ // Stack paints children in order.
+ // If Icons come first and the grey Container last,
+ // the Container may cover the Icons.
+
+ class StampStack extends StatelessWidget {
+   const StampStack({super.key});
+
+   @override
+   Widget build(BuildContext context) {
+     return Stack(
+       key: const Key('stack'),
+       children: [
+         // Layer 1: Grey background
+         Container(
+           key: const Key('layer-base'),
+           width: 300,
+           height: 120,
+           color: Colors.grey.shade300,
+         ),
+
+         // Layer 2: Star at top-right
+         Positioned(
+           top: dotTop,
+           right: dotRight,
+           child: const Icon(
+             Icons.star,
+             key: Key('dot-top'),
+           ),
+         ),
+
+         // Layer 3: Circle at bottom-left
+         Positioned(
+           bottom: dotBottom,
+           left: dotLeft,
+           child: const Icon(
+             Icons.circle,
+             key: Key('dot-bottom'),
+           ),
+         ),
+       ],
+     );
+   }
+ }
