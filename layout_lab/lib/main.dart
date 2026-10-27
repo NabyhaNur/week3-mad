@@ -194,6 +194,11 @@ class HomePage extends StatelessWidget {
 
             const SizedBox(height: 12),
             const ShareRow(),
+           
+           
+           //step 9-container
+            const SizedBox(height: 12),
+            const InfoBox(),
           ],
         ),
       ),
@@ -676,3 +681,47 @@ class _SwapBoardState extends State<SwapBoard> {
      );
    }
  }
+
+
+ 
+ // =====================================================
+ // STEP 9 - CONTAINER: MARGIN, PADDING, DECORATION
+ // =====================================================
+
+ // THINK QUESTION - STEP 9:
+ // Padding is inside the border.
+ // Margin is outside the border.
+ // Use Padding for spacing around a widget.
+ // Use SizedBox for fixed width, height, or gaps.
+ // Use Container when decoration is also needed.
+
+ class InfoBox extends StatelessWidget {
+   const InfoBox({super.key});
+
+   @override
+   Widget build(BuildContext context) {
+     return Container(
+       key: const Key('info-box'),
+
+       // Empty space outside the border
+       margin: EdgeInsets.all(boxMargin),
+
+       // Empty space inside the border
+       padding: EdgeInsets.all(boxPad),
+
+       // Background, rounded corners and border
+       decoration: BoxDecoration(
+         color: swatches[hue]!.shade100,
+         borderRadius: BorderRadius.circular(boxRadius),
+         border: Border.all(width: boxBorder),
+       ),
+
+       // Text displayed inside the box
+       child: Text(
+         'Course: $course',
+         key: const Key('box-text'),
+       ),
+     );
+   }
+ }
+
